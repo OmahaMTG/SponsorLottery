@@ -62,7 +62,7 @@ void SelectAndShowWinners(List<MonthEntries> monthSponsorsList1)
     foreach (var month in monthSponsorsList1)
     {
         string winnerName;
-        Console.Write($"{month.Month} -- ");
+        Console.Write($"{month.Month,-9} -- ");
         do
         {
             var winnerIndex = rand.Next(month.SponsorNames.Count);
