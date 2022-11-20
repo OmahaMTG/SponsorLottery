@@ -9,6 +9,22 @@ var result = ParseCsv(@".\Signups.csv");
 
 var monthSponsorsList = AssociateMonthsToSponsors(result);
 
+var totalSignUps = 0;
+Console.ForegroundColor = ConsoleColor.Yellow;
+Console.WriteLine("****************");
+Console.WriteLine("** Statistics **");
+Console.WriteLine("****************");
+Console.ForegroundColor = ConsoleColor.Gray;
+foreach (var monthSponsor in monthSponsorsList)
+{
+    var monthSignups = monthSponsor.SponsorNames.Count;
+    totalSignUps += monthSignups;
+    Console.WriteLine($"  {monthSponsor.Month} has {monthSignups} sign ups");
+}
+Console.WriteLine();
+Console.WriteLine($"  Total Signups: {totalSignUps}");
+Console.WriteLine();
+
 ValidateSponsorsDoNotHaveTooManySignups(monthSponsorsList);
 
 SelectAndShowWinners(monthSponsorsList);
@@ -28,7 +44,7 @@ List<CsvMappingResult<LotterySignup>> ParseCsv(string filePath)
 List<MonthEntries> AssociateMonthsToSponsors(List<CsvMappingResult<LotterySignup>> signupsBySponsor)
 {
     var monthEntriesList = new List<MonthEntries>();
-//Loop over each sponsorship month
+    //Loop over each sponsorship month
     foreach (var month in Enum.GetNames(typeof(Months)))
     {
         var monthSponsors = new MonthEntries(month);
@@ -43,11 +59,13 @@ List<MonthEntries> AssociateMonthsToSponsors(List<CsvMappingResult<LotterySignup
             var lotterySignup = sponsor.Result;
             var company = lotterySignup.Company;
             var numberOfEntries = prop.GetValue(lotterySignup) as int?;
-            if(numberOfEntries == null)
+            if (numberOfEntries == null)
                 throw new InvalidOperationException($"The number of entries for sponsor \"{company}\" in month \"{month}\" could not be parsed.");
             var monthValue = numberOfEntries.Value;
             monthSponsors.SponsorNames.AddRange(Enumerable.Range(0, monthValue).Select(_ => company));
         }
+
+        monthSponsors.RandomizeSponsorOrder();
 
         monthEntriesList.Add(monthSponsors);
     }
@@ -57,12 +75,18 @@ List<MonthEntries> AssociateMonthsToSponsors(List<CsvMappingResult<LotterySignup
 
 void SelectAndShowWinners(List<MonthEntries> monthSponsorsList1)
 {
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("****************************");
+    Console.WriteLine("** And The Winners Are... **");
+    Console.WriteLine("****************************");
+    Console.ForegroundColor = ConsoleColor.Gray;
+
     var rand = new Random();
     var winners = new List<string>();
     foreach (var month in monthSponsorsList1)
     {
         string winnerName;
-        Console.Write($"{month.Month,-9} -- ");
+        Console.Write($"  {month.Month,-9} -- ");
         do
         {
             var winnerIndex = rand.Next(month.SponsorNames.Count);
@@ -73,7 +97,9 @@ void SelectAndShowWinners(List<MonthEntries> monthSponsorsList1)
         } while (true);
 
         winners.Add(winnerName);
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine($"{winnerName}");
+        Console.ForegroundColor = ConsoleColor.Gray;
     }
 }
 
