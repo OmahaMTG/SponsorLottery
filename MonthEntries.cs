@@ -7,5 +7,12 @@ public class MonthEntries
         Month = month;
     }
     public string Month { get; set; }
-    public List<string> SponsorNames { get; } = new List<string>();
+
+    public void RandomizeSponsorOrder()
+    {
+        SponsorNames = SponsorNames.OrderBy(_ => Guid.NewGuid().ToString()).ToList();
+    }
+    public List<string> SponsorNames { get; private set; } = new List<string>();
+
+
 }
