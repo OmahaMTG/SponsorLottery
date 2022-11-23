@@ -9,21 +9,7 @@ var result = ParseCsv(@".\Signups.csv");
 
 var monthSponsorsList = AssociateMonthsToSponsors(result);
 
-var totalSignUps = 0;
-Console.ForegroundColor = ConsoleColor.Yellow;
-Console.WriteLine("****************");
-Console.WriteLine("** Statistics **");
-Console.WriteLine("****************");
-Console.ForegroundColor = ConsoleColor.Gray;
-foreach (var monthSponsor in monthSponsorsList)
-{
-    var monthSignups = monthSponsor.SponsorNames.Count;
-    totalSignUps += monthSignups;
-    Console.WriteLine($"  {monthSponsor.Month} has {monthSignups} sign ups");
-}
-Console.WriteLine();
-Console.WriteLine($"  Total Signups: {totalSignUps}");
-Console.WriteLine();
+ShowStatistics(monthSponsorsList);
 
 ValidateSponsorsDoNotHaveTooManySignups(monthSponsorsList);
 
@@ -132,4 +118,24 @@ void ValidateSponsorsDoNotHaveTooManySignups(List<MonthEntries> list)
     }
 
 
+}
+
+void ShowStatistics(List<MonthEntries> monthEntriesList1)
+{
+    var totalSignUps = 0;
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("****************");
+    Console.WriteLine("** Statistics **");
+    Console.WriteLine("****************");
+    Console.ForegroundColor = ConsoleColor.Gray;
+    foreach (var monthSponsor in monthEntriesList1)
+    {
+        var monthSignups = monthSponsor.SponsorNames.Count;
+        totalSignUps += monthSignups;
+        Console.WriteLine($"  {monthSponsor.Month} has {monthSignups} sign ups");
+    }
+
+    Console.WriteLine();
+    Console.WriteLine($"  Total Signups: {totalSignUps}");
+    Console.WriteLine();
 }
