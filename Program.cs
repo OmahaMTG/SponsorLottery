@@ -27,6 +27,8 @@ List<CsvMappingResult<LotterySignup>> ParseCsv(string filePath)
     return csvMappingResults;
 }
 
+
+
 List<MonthEntries> AssociateMonthsToSponsors(List<CsvMappingResult<LotterySignup>> signupsBySponsor)
 {
     var monthEntriesList = new List<MonthEntries>();
@@ -61,11 +63,9 @@ List<MonthEntries> AssociateMonthsToSponsors(List<CsvMappingResult<LotterySignup
 
 void SelectAndShowWinners(List<MonthEntries> monthSponsorsList1)
 {
-    Console.ForegroundColor = ConsoleColor.Yellow;
-    Console.WriteLine("****************************");
-    Console.WriteLine("** And The Winners Are... **");
-    Console.WriteLine("****************************");
-    Console.ForegroundColor = ConsoleColor.Gray;
+    ConsoleWriteLineWithColor("****************************", ConsoleColor.Yellow);
+    ConsoleWriteLineWithColor("** And The Winners Are... **", ConsoleColor.Yellow);
+    ConsoleWriteLineWithColor("****************************", ConsoleColor.Yellow);
 
     var rand = new Random();
     var winners = new List<string>();
@@ -75,18 +75,27 @@ void SelectAndShowWinners(List<MonthEntries> monthSponsorsList1)
         Console.Write($"  {month.Month,-9} -- ");
         do
         {
+            //Select the next winner
             var winnerIndex = rand.Next(month.SponsorNames.Count);
             winnerName = month.SponsorNames[winnerIndex];
 
+            //Companies cannot sponsor more than one month per year
             if (!winners.Contains(winnerName))
                 break;
         } while (true);
 
         winners.Add(winnerName);
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"{winnerName}");
-        Console.ForegroundColor = ConsoleColor.Gray;
+        
+        ConsoleWriteLineWithColor($"{winnerName}", ConsoleColor.Cyan);
     }
+}
+
+void ConsoleWriteLineWithColor(string message, ConsoleColor color)
+{
+    var currentColor = Console.ForegroundColor;
+    Console.ForegroundColor = color;
+    Console.WriteLine(message);
+    Console.ForegroundColor = currentColor;
 }
 
 void ValidateSponsorsDoNotHaveTooManySignups(List<MonthEntries> list)
@@ -123,11 +132,10 @@ void ValidateSponsorsDoNotHaveTooManySignups(List<MonthEntries> list)
 void ShowStatistics(List<MonthEntries> monthEntriesList1)
 {
     var totalSignUps = 0;
-    Console.ForegroundColor = ConsoleColor.Yellow;
-    Console.WriteLine("****************");
-    Console.WriteLine("** Statistics **");
-    Console.WriteLine("****************");
-    Console.ForegroundColor = ConsoleColor.Gray;
+    ConsoleWriteLineWithColor("****************", ConsoleColor.Yellow);
+    ConsoleWriteLineWithColor("** Statistics **", ConsoleColor.Yellow);
+    ConsoleWriteLineWithColor("****************", ConsoleColor.Yellow);
+
     foreach (var monthSponsor in monthEntriesList1)
     {
         var monthSignups = monthSponsor.SponsorNames.Count;
