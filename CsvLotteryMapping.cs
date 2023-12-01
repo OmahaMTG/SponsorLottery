@@ -7,17 +7,17 @@ internal class CsvLotteryMapping : CsvMapping<LotterySignup>
     public CsvLotteryMapping()
         : base()
     {
-        MapProperty(7, x => x.Company);
-        MapProperty(8, x => x.January);
-        MapProperty(9, x => x.February);
-        MapProperty(10, x => x.March);
-        MapProperty(11, x => x.April);
-        MapProperty(12, x => x.May);
-        MapProperty(13, x => x.June);
-        MapProperty(14, x => x.July);
-        MapProperty(15, x => x.August);
-        MapProperty(16, x => x.September);
-        MapProperty(17, x => x.October);
-        MapProperty(18, x => x.December);
+        MapProperty(11, x => x.Company);
+        MapProperty(13, x => x.January);
+        MapProperty(14, x => x.February);
+        MapProperty(15, x => x.March);
+        MapProperty(16, x => x.April);
+        MapProperty(17, x => x.May);
+        MapProperty(18, x => x.June);
+        MapProperty(19, x => x.July);
+        MapProperty(20, x => x.August);
+        MapProperty(21, x => x.September);
+        MapProperty(22, x => x.October);
+        MapProperty(23, x => x.December);
     }
 }

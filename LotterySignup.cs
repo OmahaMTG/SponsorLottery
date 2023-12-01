@@ -2,7 +2,7 @@
 
 internal class LotterySignup
 {
-    public string Company { get; set; }
+    public string Company { get; set; } = "Not Set";
     public int January { get; set; }
     public int February { get; set; }
     public int March { get; set; }
